@@ -1,18 +1,36 @@
-import java.net.URL;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
+/**
+ * Class to help determine the directory from which the app was launched
+ * @author vegdahl
+ *
+ */
 public class Dir {
-    private static String thisClassFile = "Dir.class";
-    private static Dir myInstance = new Dir();
 
-    public static final String cur = currentDir();
-
-    private static String currentDir() {
-        URL url = myInstance.getClass().getClassLoader().getResource(thisClassFile);
-
-        if (url == null) {
-            return "";
-        }
-        String full = url.getFile();
-        return full.substring(0, full.length() - thisClassFile.length());
-    }
+	/**
+	 * returns the directly from which the current app was launched
+	 * @return a file object that denotes the launching directory
+	 */
+	public static File dir() {
+		return new Dir().exec();
+	}
+	
+	// helper method to find the launching directory
+	private File exec() {
+		// URI to contain the executable
+		URI u;
+		try {
+			// get the current executable
+			u = new URI(this.getClass().getProtectionDomain().getCodeSource().getLocation().toString());
+		} catch (URISyntaxException e) {
+			// return null if there was some kind of an error
+			return null;
+		}
+		
+		// return the parent file of the current executable
+		File f = new File(u);
+		return f;
+	}
 }

@@ -26,6 +26,8 @@ public class FileFrame extends JFrame
 
     private static Color LIGHT_GREEN = new Color(180,255,180);
     private static Color LIGHT_BLUE = new Color(200,200,255);
+    
+    private static File currentDirectory = Dir.dir();
 
     public static void main(String[] args) {
         FileFrame ff = new FileFrame();
@@ -157,6 +159,7 @@ public class FileFrame extends JFrame
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
+                updateCurrentDirectory(selectedFile);
                 inputFileField.setText("" + selectedFile.getAbsolutePath());
             }
         }
@@ -166,6 +169,7 @@ public class FileFrame extends JFrame
             int result = fileChooser.showSaveDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
+                updateCurrentDirectory(selectedFile);
                 String fileName = "" + selectedFile.getAbsolutePath();
                 if (fileName.toLowerCase().endsWith(".java")) {
                     messageArea.setText("Output file may not end with '.java'");
@@ -257,11 +261,15 @@ public class FileFrame extends JFrame
     }
 
     private JFileChooser createFileChooser() {
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser(currentDirectory);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        File currentDir = new File(Dir.cur);
-        fileChooser.setCurrentDirectory(currentDir);
         return fileChooser;
+    }
+    
+    private void updateCurrentDirectory(File fullFile) {
+        if (fullFile != null) {
+            currentDirectory = fullFile.getParentFile();
+        }
     }
 
     private boolean isTextFieldInvalid(String file, boolean forInput) {
