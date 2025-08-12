@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Dir
+comment0.text=\n\ Class\ to\ help\ determine\ the\ directory\ from\ which\ the\ app\ was\ launched\n\ @author\ vegdahl\n\n
+comment1.params=
+comment1.target=java.io.File\ dir()
+comment1.text=\n\ returns\ the\ directly\ from\ which\ the\ current\ app\ was\ launched\n\ @return\ a\ file\ object\ that\ denotes\ the\ launching\ directory\n
+comment2.params=
+comment2.target=java.io.File\ exec()
+numComments=3
